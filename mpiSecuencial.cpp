@@ -12,7 +12,6 @@ VERSION SECUENCIAL YA FUNCIONAL
 #include <stdlib.h>
 #include <time.h>
 #include <bits/stdc++.h> 
-#include <omp.h>
 #include <stdio.h>
 #include <sstream> 
 // For the CUDA runtime routines (prefixed with "cuda_")
