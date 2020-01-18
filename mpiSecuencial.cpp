@@ -14,8 +14,7 @@ VERSION SECUENCIAL YA FUNCIONAL
 #include <bits/stdc++.h> 
 #include <stdio.h>
 #include <sstream> 
-// For the CUDA runtime routines (prefixed with "cuda_")
-#include <memory>
+#include <mpi.h>
 
 #define KCLUSTERS 5
 #define ITERATIONS 1
@@ -148,8 +147,14 @@ void newModes(int *data,int matrixRows,int matrixColumns, int totalThreads, int*
 }
 
 
-int main(int arg, char* argv[]) {
+int main(int argc, char* argv[]) {
     
+	int rank, size;
+	MPI_Init( &argc, &argv );
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	printf("kio padre world from process %d of %d\n", rank, size );
+	MPI_Finalize( );
     
 
 	cout<<"\n............................"<<endl;
