@@ -148,25 +148,26 @@ void newModes(int *data,int matrixRows,int matrixColumns, int totalThreads, int*
 
 
 int main(int argc, char* argv[]) {
-    
+    	
+	int rank, size;
+	MPI_Init( &argc, &argv );
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	cout<<"kio padre world from process "<<rank<<" of " << size<<endl;
 	
     
-
 	cout<<"\n............................"<<endl;
 
 	int iterations = ITERATIONS;
 	string line;
-	
 	iterations = 2;
 	thread_count = 5;
-	
 	
 	if ( arr == NULL){
 		fprintf(stderr, "Failed to allocate host vectors!\n");
 		exit(EXIT_FAILURE);
 	}
 		
-	cout<<"se ejecuta "<<iterations<<" con "<<thread_count<<" hilos"<<endl;
 	//lectura de los datos
 	int indexData = 0;
 	for(int i=0; i<limitLoop;i++){ 
@@ -191,12 +192,6 @@ int main(int argc, char* argv[]) {
 		myfile.clear();
 	}
 
-	int rank, size;
-	MPI_Init( &argc, &argv );
-	MPI_Comm_size(MPI_COMM_WORLD, &size);
-	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	cout<<"kio padre world from process "<<rank<<" of " << size;
-	
       
 	//Se termino la lectura de los datos
 	//Creacion de las modas
@@ -209,26 +204,26 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	
-
+/*
 	cout<<"Modas antes:"<<endl;
 	for(int j= 0; j< KCLUSTERS; j++ ){
 		for(int i =0 ;i<32;i++)
 		cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
-
+*/
 
 	int totalThreads = size;
 	int initIteration = (matrixRows/size)*rank;
 	int endIteration = (matrixRows/size)*(rank+1);
-	if(rank == size -1 ) endIteration--;
 	cout<<"Matrix rows: "<<matrixRows<<endl;
 	cout<<"Size: "<<size<<endl;
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 
-//	splitParallel(arr,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
-//	newModes(arr,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
-    
+	splitParallel(arr,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
+	newModes(arr,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
+
+
 //PRINTS
 /*
 	cout<<"Resultado:"<<endl;
