@@ -18,15 +18,16 @@ VERSION SECUENCIAL YA FUNCIONAL
 
 #define KCLUSTERS 5
 #define ITERATIONS 1
-int limitLoop = 4;
-int limit = 1000000;
+int limitLoop = 1;
+int limit = 100;
 int matrixRows = limit * limitLoop;
 int matrixColumns = 32;
 //matrix for input data
 int *arr = (int *)malloc(matrixRows* matrixColumns* sizeof(int *)); 
-int *d_arr; 
+int *recvModes = (int *)malloc(matrixRows * sizeof(int *));
+int *mpi_arr = (int *)malloc(matrixRows* matrixColumns* sizeof(int *));
 int *cudaModes = (int *)malloc(KCLUSTERS* matrixColumns* sizeof(int *));
-int *d_cudaModes;
+
 
 using namespace std;
 
@@ -73,7 +74,7 @@ void convertStrtoArr(string str,int *result,int index)
 
 
 //asignacion de la moda
-void splitParallel(int *data,int matrixRows,int matrixColumns, int initIteration, int endIteration, int* modes, int clustersSize ){
+void splitParallel(int *data, int *tmp_mode,int matrixRows,int matrixColumns, int initIteration, int endIteration, int* modes, int clustersSize ){
     cout << "splitParallel "<<initIteration<<" "<<endIteration<<endl;
 	int index = initIteration;
 
@@ -98,19 +99,23 @@ void splitParallel(int *data,int matrixRows,int matrixColumns, int initIteration
         } 
       }
       *(data + i*matrixColumns+ 31) = pos;
+	  *(tmp_mode + i) = pos;
     }
 
 }
 
-void newModes(int *data,int matrixRows,int matrixColumns, int totalThreads, int* modes, int index, int end, int clusters){
+void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int totalThreads, int* modes, int index, int end, int clusters){
+	cout<<"entra en new mode"<<endl;
 	int repeticiones[clusters][32][34];
 	for(int k=0;k < totalThreads;k++){
 		for(int i =0;i<32;i++){
 			for(int j=0;j<34;j++){
 				repeticiones[k][i][j] = -1;
+				*(frecuecny+k*32*34+i*32+j) = -1;
 			}
 		}
 	}
+	cout<<"termina asignacion en new mode"<<endl;
     
     //printf("entro\n");
     int initIteration = index, endIteration = end;
@@ -118,12 +123,15 @@ void newModes(int *data,int matrixRows,int matrixColumns, int totalThreads, int*
     for(int i = initIteration; i<endIteration;i++){
 		int clusterIndex = *(data + i*matrixColumns+ matrixColumns-1);
 		for (int k = 0; k < matrixColumns-1; k++){
-			if(repeticiones[clusterIndex][k][*(data + i*matrixColumns+ k)] == -1){
+			int value = *(data + i*matrixColumns+ k);
+			if(repeticiones[clusterIndex][k][value] == -1){
 				//printf("entro\n");
-				repeticiones[clusterIndex][k][*(data + i*matrixColumns+ k)] = 1;
+				repeticiones[clusterIndex][k][value] = 1;
+				*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
 				//printf("para el dato %i y atributo % i van %i\n",i,k,repeticiones[k][*(data + i*matrixColumns+ k)]);
 			}else{
-				repeticiones[clusterIndex][k][*(data + i*matrixColumns+ k)] += 1;
+				repeticiones[clusterIndex][k][value] += 1;
+				*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
 				//printf("para el dato %i y atributo % i en la opcion %i van %i\n",i,k,*(data + i*matrixColumns+ k),repeticiones[k][*(data + i*matrixRows+ k)]);
 			}
 		}
@@ -195,34 +203,45 @@ int main(int argc, char* argv[]) {
       
 	//Se termino la lectura de los datos
 	//Creacion de las modas
-	srand (time(NULL)); // pone las semillas en base al tiempo actual para la generacion de los numeros aleatorios
-	int randI; // posicion aleatoria
-	for(int i=0;i<KCLUSTERS;i++){
-		randI = (rand() % matrixRows) + 1;
-		for(int j=0; j<matrixColumns;j++){
-			*(cudaModes+i*matrixColumns+j) = *(arr+randI*matrixColumns+j);
+
+	if(rank == 0){
+		srand (time(NULL)); // pone las semillas en base al tiempo actual para la generacion de los numeros aleatorios
+		int randI; // posicion aleatoria
+		for(int i=0;i<KCLUSTERS;i++){
+			randI = (rand() % matrixRows) + 1;
+			for(int j=0; j<matrixColumns;j++){
+				*(cudaModes+i*matrixColumns+j) = *(arr+randI*matrixColumns+j);
+			}
 		}
 	}
+	int modesSize = KCLUSTERS* matrixColumns;
+	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
 	
-/*
 	cout<<"Modas antes:"<<endl;
 	for(int j= 0; j< KCLUSTERS; j++ ){
 		for(int i =0 ;i<32;i++)
 		cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
-*/
+
 
 	int totalThreads = size;
 	int initIteration = (matrixRows/size)*rank;
 	int endIteration = (matrixRows/size)*(rank+1);
+	int *tmpModes = (int *)malloc((endIteration- initIteration)*sizeof(int *));
+	int *frecuency = (int *)malloc(KCLUSTERS* 32*34* sizeof(int *)); //[KCLUSTERS][32][34];
+	int *recvFrecuency = (int *)malloc(KCLUSTERS* 32*34*size*sizeof(int *));
 	cout<<"Matrix rows: "<<matrixRows<<endl;
 	cout<<"Size: "<<size<<endl;
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
-
-	splitParallel(arr,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
-	newModes(arr,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
-
+	
+	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
+	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
+	cout<<"SALIO DE NEW MDOES"<<endl;
+	
+	//MPI_Gather(tmpModes, matrixRows/size, MPI_INT, recvModes, matrixRows/size, MPI_INT, 0, MPI_COMM_WORLD);
+	
+	
 
 //PRINTS
 /*
