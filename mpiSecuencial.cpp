@@ -195,8 +195,8 @@ int main(int argc, char* argv[]) {
 	MPI_Init( &argc, &argv );
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	printf("kio padre world from process %d of %d\n", rank, size );
-	MPI_Finalize();
+	cout<<"kio padre world from process "<<rank<<" of " << size;
+	
       
 	//Se termino la lectura de los datos
 	//Creacion de las modas
@@ -204,7 +204,6 @@ int main(int argc, char* argv[]) {
 	int randI; // posicion aleatoria
 	for(int i=0;i<KCLUSTERS;i++){
 		randI = (rand() % matrixRows) + 1;
-		cout<<"randI: "<<randI<<endl;
 		for(int j=0; j<matrixColumns;j++){
 			*(cudaModes+i*matrixColumns+j) = *(arr+randI*matrixColumns+j);
 		}
@@ -212,49 +211,23 @@ int main(int argc, char* argv[]) {
 	
 
 	cout<<"Modas antes:"<<endl;
-	// for(int i =0 ;i<32;i++)
-	// cout<<*(arr+(matrixRows - 1)*matrixColumns+i)<<"-";
-	// cout<<endl;
-	// for(int i =0 ;i<32;i++)
-	// cout<<*(arr+(matrixRows/2 - 1)*matrixColumns+i)<<"-";
-	// cout<<endl;
-	// for(int i =0 ;i<32;i++)
-	// cout<<*(arr+(matrixRows/2)*matrixColumns+i)<<"-";
-	// cout<<endl;
-	// for(int i =0 ;i<32;i++)
-	// cout<<*(cudaModes+0*matrixColumns+i)<<"-";
-	// cout<<endl;
-
 	for(int j= 0; j< KCLUSTERS; j++ ){
 		for(int i =0 ;i<32;i++)
 		cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
-	int totalThreads = 1;
-	splitParallel(arr,matrixRows,matrixColumns,0,matrixRows,cudaModes,KCLUSTERS);
-	newModes(arr,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
-      /*
+	int totalThreads = size;
+	int initIteration = (matrixRows/size)*rank  ;
+	int endIteration = (matrixRows/size)*(rank+1);
+	cout<<"Matrix rows: "<<matrixRows<<endl;
+	cout<<"Size: "<<size<<endl;
+	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 
-      cout<<"Primeros 25 Datos:"<<endl;
-      for(int i=0;i<25;i++){
-          for(int j= 0; j<matrixColumns;j++){  
-            cout<<*(arr+i*matrixColumns+j)<<" ";
-          }
-          cout<<"\n";
-      }
-  
-    */
+//	splitParallel(arr,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
+//	newModes(arr,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
+    
 	cout<<"Resultado:"<<endl;
-	//for(int i =0 ;i<32;i++)
-	//cout<<*(arr+(matrixRows - 1)*matrixColumns+i)<<"-";
-	//cout<<endl;
-	//for(int i =0 ;i<32;i++)
-	//cout<<*(arr+(matrixRows/2 - 1)*matrixColumns+i)<<"-";
-	//cout<<endl;
-	//for(int i =0 ;i<32;i++)
-	//cout<<*(arr+(matrixRows/2)*matrixColumns+i)<<"-";
-	//cout<<endl;
-
+	
 	for(int j= 0; j< KCLUSTERS; j++ ){
 		for(int i =0 ;i<32;i++)
 		cout<<*(arr+j*matrixColumns+i)<<"-";
@@ -268,7 +241,7 @@ int main(int argc, char* argv[]) {
 		cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
-
+	MPI_Finalize();
 	cout<<"\nTermino, Iteraciones = "<<iterations<<" hilos = "<<thread_count<<endl;
 	cout<<"temino"<<endl;
 }
