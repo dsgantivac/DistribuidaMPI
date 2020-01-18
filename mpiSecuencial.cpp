@@ -16,7 +16,7 @@ VERSION SECUENCIAL YA FUNCIONAL
 #include <sstream> 
 #include <mpi.h>
 
-#define KCLUSTERS 4
+#define KCLUSTERS 40
 #define ITERATIONS 1
 int limitLoop = 1;
 int limit = 1000;
@@ -216,7 +216,6 @@ int main(int argc, char* argv[]) {
 	}
 	int modesSize = KCLUSTERS* matrixColumns;
 	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Barrier(MPI_COMM_WORLD);
 	
 	cout<<"Modas antes:"<<endl;
 	for(int j= 0; j< KCLUSTERS; j++ ){
