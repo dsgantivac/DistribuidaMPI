@@ -229,6 +229,8 @@ int main(int argc, char* argv[]) {
 //	splitParallel(arr,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
 //	newModes(arr,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
     
+//PRINTS
+/*
 	cout<<"Resultado:"<<endl;
 	
 	for(int j= 0; j< KCLUSTERS; j++ ){
@@ -244,6 +246,7 @@ int main(int argc, char* argv[]) {
 		cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
+*/
 	MPI_Finalize();
 	cout<<"\nTermino, Iteraciones = "<<iterations<<" hilos = "<<thread_count<<endl;
 	cout<<"temino"<<endl;
