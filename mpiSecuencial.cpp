@@ -216,9 +216,12 @@ int main(int argc, char* argv[]) {
 		cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
+
+
 	int totalThreads = size;
-	int initIteration = (matrixRows/size)*rank  ;
+	int initIteration = (matrixRows/size)*rank;
 	int endIteration = (matrixRows/size)*(rank+1);
+	if(rank == size -1 ) endIteration--;
 	cout<<"Matrix rows: "<<matrixRows<<endl;
 	cout<<"Size: "<<size<<endl;
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
