@@ -217,12 +217,14 @@ int main(int argc, char* argv[]) {
 	int modesSize = KCLUSTERS* matrixColumns;
 	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
 	
+	/*
 	cout<<"Modas antes:"<<endl;
 	for(int j= 0; j< KCLUSTERS; j++ ){
 		for(int i =0 ;i<32;i++)
 			cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
+	*/
 
 
 	int totalThreads = size;
@@ -236,7 +238,7 @@ int main(int argc, char* argv[]) {
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 	
 	//splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
-	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);
+	//newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);
 	
 	//MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34*size, MPI_INT, 0, MPI_COMM_WORLD);
 	
