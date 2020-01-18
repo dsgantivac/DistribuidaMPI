@@ -19,7 +19,7 @@ VERSION SECUENCIAL YA FUNCIONAL
 #define KCLUSTERS 40
 #define ITERATIONS 1
 int limitLoop = 1;
-int limit = 10000;
+int limit = 1000000;
 int matrixRows = limit * limitLoop;
 int matrixColumns = 32;
 //matrix for input data
@@ -235,7 +235,6 @@ int main(int argc, char* argv[]) {
 	int *recvFrecuency = (int *)malloc(KCLUSTERS* 32*34*size*sizeof(int *));
 	cout<<"Matrix rows: "<<matrixRows<<endl;
 	//cout<<"Size: "<<size<<endl;
-	cout<<"Process "<<rank<<" tmpModes size: "<<endIteration- initIteration<<endl;
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 	
 	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
