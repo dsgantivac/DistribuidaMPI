@@ -234,10 +234,10 @@ int main(int argc, char* argv[]) {
 	int *frecuency = (int *)malloc(KCLUSTERS* 32*34* sizeof(int *)); //[KCLUSTERS][32][34];
 	int *recvFrecuency = (int *)malloc(KCLUSTERS* 32*34*size*sizeof(int *));
 	cout<<"Matrix rows: "<<matrixRows<<endl;
-	cout<<"Size: "<<size<<endl;
+	//cout<<"Size: "<<size<<endl;
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 	
-	//splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
+	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
 	//newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);
 	
 	//MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34*size, MPI_INT, 0, MPI_COMM_WORLD);
