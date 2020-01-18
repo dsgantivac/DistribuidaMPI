@@ -99,7 +99,7 @@ void splitParallel(int *data, int *tmp_mode,int matrixRows,int matrixColumns, in
         } 
       }
       *(data + i*matrixColumns+ 31) = pos;
-	  *(tmp_mode + i) = pos;
+	  //*(tmp_mode + i) = pos;
     }
 
 }
