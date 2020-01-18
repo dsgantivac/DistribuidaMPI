@@ -149,12 +149,7 @@ void newModes(int *data,int matrixRows,int matrixColumns, int totalThreads, int*
 
 int main(int argc, char* argv[]) {
     
-	int rank, size;
-	MPI_Init( &argc, &argv );
-	MPI_Comm_size(MPI_COMM_WORLD, &size);
-	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	printf("kio padre world from process %d of %d\n", rank, size );
-	MPI_Finalize( );
+	
     
 
 	cout<<"\n............................"<<endl;
@@ -167,11 +162,10 @@ int main(int argc, char* argv[]) {
 	
 	
 	if ( arr == NULL){
-	fprintf(stderr, "Failed to allocate host vectors!\n");
-	exit(EXIT_FAILURE);
+		fprintf(stderr, "Failed to allocate host vectors!\n");
+		exit(EXIT_FAILURE);
 	}
 		
-
 	cout<<"se ejecuta "<<iterations<<" con "<<thread_count<<" hilos"<<endl;
 	//lectura de los datos
 	int indexData = 0;
@@ -197,6 +191,12 @@ int main(int argc, char* argv[]) {
 		myfile.clear();
 	}
 
+	int rank, size;
+	MPI_Init( &argc, &argv );
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	printf("kio padre world from process %d of %d\n", rank, size );
+	MPI_Finalize();
       
 	//Se termino la lectura de los datos
 	//Creacion de las modas
