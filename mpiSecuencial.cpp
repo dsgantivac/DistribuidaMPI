@@ -68,7 +68,7 @@ void convertStrtoArr(string str,int *result,int index)
     geek >> x; 
      *(result +index*matrixColumns +pos) = x;
     //como no tiene clase se le asigna un -1
-     *(result +index*matrixColumns +pos+1) = -1;
+     //*(result +index*matrixColumns +pos+1) = -1;
     
 } 
 
@@ -111,7 +111,7 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 		for(int i =0;i<32;i++){
 			for(int j=0;j<34;j++){
 				repeticiones[k][i][j] = -1;
-				*(frecuecny+k*32*34+i*32+j) = -1;
+				//*(frecuecny+k*32*34+i*32+j) = -1;
 			}
 		}
 	}
@@ -127,11 +127,11 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 			if(repeticiones[clusterIndex][k][value] == -1){
 				//printf("entro\n");
 				repeticiones[clusterIndex][k][value] = 1;
-				*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
+				//*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
 				//printf("para el dato %i y atributo % i van %i\n",i,k,repeticiones[k][*(data + i*matrixColumns+ k)]);
 			}else{
 				repeticiones[clusterIndex][k][value] += 1;
-				*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
+				//*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
 				//printf("para el dato %i y atributo % i en la opcion %i van %i\n",i,k,*(data + i*matrixColumns+ k),repeticiones[k][*(data + i*matrixRows+ k)]);
 			}
 		}
