@@ -216,7 +216,7 @@ int main(int argc, char* argv[]) {
 	}
 	int modesSize = KCLUSTERS* matrixColumns;
 	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Barrier(MPI_COMM_WORLD)
+	MPI_Barrier(MPI_COMM_WORLD);
 	
 	cout<<"Modas antes:"<<endl;
 	for(int j= 0; j< KCLUSTERS; j++ ){
