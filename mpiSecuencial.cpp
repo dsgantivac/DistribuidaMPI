@@ -104,7 +104,7 @@ void splitParallel(int *data,int matrixRows,int matrixColumns, int initIteration
 
 void newModes(int *data,int matrixRows,int matrixColumns, int totalThreads, int* modes, int index, int end, int clusters){
 	int repeticiones[clusters][32][34];
-	for(int k=0;k<0;k++){
+	for(int k=0;k < totalThreads;k++){
 		for(int i =0;i<32;i++){
 			for(int j=0;j<34;j++){
 				repeticiones[k][i][j] = -1;
