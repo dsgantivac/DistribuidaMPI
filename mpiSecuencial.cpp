@@ -82,7 +82,7 @@ void splitParallel(int *data, int *tmp_mode,int matrixRows,int matrixColumns, in
     int pos = 0;
     int maxAccerts = 0;
     int accerts = 0;
-    for(int i = initIteration; i<endIteration;i++){
+    for(int i = initIteration; i< endIteration;i++){
       pos = 0;
       maxAccerts = 0;
       accerts = 0;
@@ -235,6 +235,7 @@ int main(int argc, char* argv[]) {
 	int *recvFrecuency = (int *)malloc(KCLUSTERS* 32*34*size*sizeof(int *));
 	cout<<"Matrix rows: "<<matrixRows<<endl;
 	//cout<<"Size: "<<size<<endl;
+	cout<<"Process "<<rank<<" tmpModes size: "<<endIteration- initIteration<<endl;
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 	
 	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
