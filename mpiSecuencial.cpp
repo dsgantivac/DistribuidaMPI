@@ -16,10 +16,10 @@ VERSION SECUENCIAL YA FUNCIONAL
 #include <sstream> 
 #include <mpi.h>
 
-#define KCLUSTERS 4
+#define KCLUSTERS 40
 #define ITERATIONS 1
 int limitLoop = 1;
-int limit = 100;
+int limit = 100000;
 int matrixRows = limit * limitLoop;
 int matrixColumns = 32;
 //matrix for input data
@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
 	cout<<"Modas antes:"<<endl;
 	for(int j= 0; j< KCLUSTERS; j++ ){
 		for(int i =0 ;i<32;i++)
-		cout<<*(cudaModes+j*matrixColumns+i)<<"-";
+			cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 		cout<<endl;
 	}
 
@@ -236,10 +236,9 @@ int main(int argc, char* argv[]) {
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 	
 	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
-	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,0,matrixRows,KCLUSTERS);
-	cout<<"SALIO DE NEW MDOES"<<endl;
+	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);
 	
-	//MPI_Gather(tmpModes, matrixRows/size, MPI_INT, recvModes, matrixRows/size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34*size, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	
 
