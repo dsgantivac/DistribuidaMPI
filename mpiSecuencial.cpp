@@ -268,7 +268,7 @@ int main(int argc, char* argv[]) {
 						//printf("entro\n");
 					}
 				}
-				*(modes + k*matrixColumns+ i) = aux2;
+				*(cudaModes + k*matrixColumns+ i) = aux2;
 			}
 		}
 
