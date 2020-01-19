@@ -245,8 +245,8 @@ int main(int argc, char* argv[]) {
 	if(rank == 0){
 		for(int i= 0; i<KCLUSTERS* 32*34*size; i++){
 			lastElement = *(recvFrecuency+i);
+			cout<<"Last element: "<<lastElement<<endl;
 		}
-		cout<<"Last element: "<<lastElement<<endl;
 	}
 
 //PRINTS
