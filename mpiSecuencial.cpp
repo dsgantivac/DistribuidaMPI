@@ -203,7 +203,6 @@ int main(int argc, char* argv[]) {
       
 	//Se termino la lectura de los datos
 	//Creacion de las modas
-	/*
 	if(rank == 0){
 		srand (time(NULL)); // pone las semillas en base al tiempo actual para la generacion de los numeros aleatorios
 		int randI; // posicion aleatoria
@@ -214,10 +213,11 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-	*/
 	int modesSize = KCLUSTERS* matrixColumns;
 	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
 	
+	/*
+	*/
 	
 	if(rank == 0){
 		cout<<"Modas antes:"<<endl;
