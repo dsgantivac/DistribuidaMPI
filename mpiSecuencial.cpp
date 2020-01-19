@@ -16,7 +16,7 @@ VERSION SECUENCIAL YA FUNCIONAL
 #include <sstream> 
 #include <mpi.h>
 
-#define KCLUSTERS 180
+#define KCLUSTERS 360
 #define ITERATIONS 1
 int limitLoop = 6;
 int limit = 1000000;
