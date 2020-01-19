@@ -247,7 +247,7 @@ int main(int argc, char* argv[]) {
 			lastElement = *(recvFrecuency+i);
 		}
 	}
-	
+	cout<<"Last element: "<<lastElement<<endl;
 
 //PRINTS
 /*
