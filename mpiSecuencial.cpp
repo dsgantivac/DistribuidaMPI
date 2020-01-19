@@ -19,7 +19,7 @@ VERSION SECUENCIAL YA FUNCIONAL
 #define KCLUSTERS 360
 #define ITERATIONS 1
 int limitLoop = 6;
-int limit = 1000;
+int limit = 1000000;
 int matrixRows = limit * limitLoop;
 int matrixColumns = 32;
 //matrix for input data
