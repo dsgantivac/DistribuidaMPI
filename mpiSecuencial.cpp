@@ -203,7 +203,7 @@ int main(int argc, char* argv[]) {
       
 	//Se termino la lectura de los datos
 	//Creacion de las modas
-
+	/*
 	if(rank == 0){
 		srand (time(NULL)); // pone las semillas en base al tiempo actual para la generacion de los numeros aleatorios
 		int randI; // posicion aleatoria
@@ -214,6 +214,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
+	*/
 	int modesSize = KCLUSTERS* matrixColumns;
 	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
 	
@@ -234,6 +235,7 @@ int main(int argc, char* argv[]) {
 	int *tmpModes = (int *)malloc((endIteration- initIteration)*sizeof(int *));
 	int *frecuency = (int *)malloc(KCLUSTERS* 32*34* sizeof(int *)); //[KCLUSTERS][32][34];
 	int *recvFrecuency = (int *)malloc(KCLUSTERS* 32*34*size*sizeof(int *));
+	int *(totalFrecuency) = (int *)malloc(KCLUSTERS* 32*34*sizeof(int *));
 	cout<<"Matrix rows: "<<matrixRows<<endl;
 	//cout<<"Size: "<<size<<endl;
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
@@ -242,11 +244,16 @@ int main(int argc, char* argv[]) {
 	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);	
 	cout<< "Obtener las modas"<<endl;
 	MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34, MPI_INT, 0, MPI_COMM_WORLD);
-	int lastElement;
 	if(rank == 0){
-		for(int i= 0; i<KCLUSTERS* 32*34*size; i++){
-			lastElement = *(recvFrecuency+i);
-			cout<<"Last element: "<<lastElement<<endl;
+		for (int i = 0; i < KCLUSTERS* 32*34; i++)
+		{
+			*(totalFrecuency +i ) = 0;
+		}
+		
+		for(int task=0;task<size;task++){
+			for(int i= 0; i<KCLUSTERS* 32*34; i++){
+				*(totalFrecuency +i ) += *(recvFrecuency+task*KCLUSTERS* 32*34+i);
+			}
 		}
 	}
 
