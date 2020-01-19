@@ -239,6 +239,7 @@ int main(int argc, char* argv[]) {
 	
 	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
 	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);	
+	cout<< "Obtener las modas"<<endl;
 	MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34*size, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	
