@@ -1,0 +1,83 @@
+............................
+1 nodos
+6000000 datos
+360 clusters
+temino
+
+real	10m25.104s
+user	10m20.894s
+sys	0m0.682s
+
+............................
+2 nodos
+6000000 datos
+360 clusters
+temino
+
+real	6m12.451s
+user	6m8.844s
+sys	0m0.685s
+
+............................
+3 nodos
+6000000 datos
+360 clusters
+temino
+
+real	5m26.521s
+user	5m1.475s
+sys	0m22.205s
+
+............................
+4 nodos
+6000000 datos
+360 clusters
+temino
+
+real	4m37.755s
+user	4m19.482s
+sys	0m15.801s
+
+
+######################################################################################################
+
+1 nodos
+6000000 datos
+500 clusters
+temino
+
+real	13m46.908s
+user	13m41.327s
+sys	0m0.901s
+
+............................
+2 nodos
+6000000 datos
+500 clusters
+temino
+
+real	7m58.216s
+user	7m54.027s
+sys	0m0.709s
+
+............................
+3 nodos
+6000000 datos
+500 clusters
+temino
+
+real	6m39.377s
+user	6m9.504s
+sys	0m26.665s
+
+............................
+4 nodos
+6000000 datos
+500 clusters
+temino
+
+real	5m27.952s
+user	5m7.388s
+sys	0m17.803s
+
+
