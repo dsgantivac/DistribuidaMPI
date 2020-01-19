@@ -217,15 +217,16 @@ int main(int argc, char* argv[]) {
 	int modesSize = KCLUSTERS* matrixColumns;
 	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
 	
-	/*
-	cout<<"Modas antes:"<<endl;
-	for(int j= 0; j< KCLUSTERS; j++ ){
-		for(int i =0 ;i<32;i++)
-			cout<<*(cudaModes+j*matrixColumns+i)<<"-";
-		cout<<endl;
+	
+	if(rank == 0){
+		cout<<"Modas antes:"<<endl;
+		for(int j= 0; j< KCLUSTERS; j++ ){
+			for(int i =0 ;i<32;i++)
+				cout<<*(cudaModes+j*matrixColumns+i)<<"-";
+			cout<<endl;
+		}
 	}
-	*/
-
+	
 
 	int totalThreads = size;
 	int initIteration = (matrixRows/size)*rank;
