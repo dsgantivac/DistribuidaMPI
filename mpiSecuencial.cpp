@@ -127,11 +127,11 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 			if(repeticiones[clusterIndex][k][value] == -1){
 				//printf("entro\n");
 				repeticiones[clusterIndex][k][value] = 1;
-				*(frecuecny+clusterIndex*32*34+k*(matrixColumns-1)+value) = 1;
+				*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
 				//printf("para el dato %i y atributo % i van %i\n",i,k,repeticiones[k][*(data + i*matrixColumns+ k)]);
 			}else{
 				repeticiones[clusterIndex][k][value] += 1;
-				*(frecuecny+clusterIndex*32*34+k*(matrixColumns-1)+value) += 1;
+				*(frecuecny+clusterIndex*32*34+k*32+value) += 1;
 				//printf("para el dato %i y atributo % i en la opcion %i van %i\n",i,k,*(data + i*matrixColumns+ k),repeticiones[k][*(data + i*matrixRows+ k)]);
 			}
 		}
@@ -266,11 +266,11 @@ int main(int argc, char* argv[]) {
 
 
 		for(int k=0;k<KCLUSTERS;k++){
-			for(int i =0;i<32;i++){
+			for(int i =0;i<31;i++){
 				int aux = -1;
 				int aux2 = 0;
 				for(int j = 0; j< 34;j++){
-					if(aux < *(totalFrecuency+ k*32*34 + 32*i +j)){
+					if( aux < *(totalFrecuency+ k*32*34 + 32*i +j)){
 						aux = *(totalFrecuency+ k*32*34 + 32*i +j);
 						aux2 = j;
 						cout<<"iteracion "<<i<<" entro pos:"<<j<<" con valor "<< *(totalFrecuency+ k*32*34 + 32*i +j)<<endl;
