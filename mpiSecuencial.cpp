@@ -258,9 +258,9 @@ int main(int argc, char* argv[]) {
 		}
 
 		cout<<"Total frecuency"<<endl;
-		for(int i= 0; i< 34; i++){
-			for(int j=0;j<32;j++)
-				cout<< *(totalFrecuency +i*34+j)<<"-";
+		for(int i= 0; i< 32; i++){
+			for(int j=0;j<34;j++)
+				cout<< *(totalFrecuency +i*32+j)<<"-";
 			cout<<endl;
 		}
 
