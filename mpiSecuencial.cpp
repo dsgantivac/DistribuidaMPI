@@ -16,10 +16,10 @@ VERSION SECUENCIAL YA FUNCIONAL
 #include <sstream> 
 #include <mpi.h>
 
-#define KCLUSTERS 360
+#define KCLUSTERS 4//360
 #define ITERATIONS 1
 int limitLoop = 6;
-int limit = 1000000;
+int limit = 1000//1000000;
 int matrixRows = limit * limitLoop;
 int matrixColumns = 32;
 //matrix for input data
@@ -238,9 +238,8 @@ int main(int argc, char* argv[]) {
 	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 	
 	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
-	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);
-	
-	//MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34*size, MPI_INT, 0, MPI_COMM_WORLD);
+	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);	
+	MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34*size, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	
 
