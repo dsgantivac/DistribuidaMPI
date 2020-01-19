@@ -16,7 +16,7 @@ VERSION SECUENCIAL YA FUNCIONAL
 #include <sstream> 
 #include <mpi.h>
 
-#define KCLUSTERS 4//360
+#define KCLUSTERS 360
 #define ITERATIONS 1
 int limitLoop = 6;
 int limit = 1000000;
@@ -136,23 +136,6 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 			}
 		}
     }
-    //printf("entro MI PERRO\n");
-	/*
-	for(int k=0;k<clusters;k++){
-		for(int i =0;i<32;i++){
-			int aux = -1;
-            int aux2 = 0;
-            for(int j = 0; j< 34;j++){
-                 if(aux < repeticiones[k][i][j]){
-                     aux = repeticiones[k][i][j];
-                     aux2 = k;
-                     //printf("entro\n");
-                 }
-            }
-			*(modes + k*matrixColumns+ i) = aux2;
-		}
-	}
-	*/
 }
 
 
@@ -217,9 +200,8 @@ int main(int argc, char* argv[]) {
 	int modesSize = KCLUSTERS* matrixColumns;
 	MPI_Bcast( cudaModes, modesSize, MPI_INT, 0, MPI_COMM_WORLD);
 	
-	/*
-	*/
 	
+	/*
 	if(rank == 0){
 		cout<<"Modas antes:"<<endl;
 		for(int j= 0; j< KCLUSTERS; j++ ){
@@ -228,6 +210,7 @@ int main(int argc, char* argv[]) {
 			cout<<endl;
 		}
 	}
+	*/
 	
 
 	int totalThreads = size;
@@ -256,13 +239,14 @@ int main(int argc, char* argv[]) {
 				*(totalFrecuency +i ) += *(recvFrecuency+task*KCLUSTERS* 32*34+i);
 			}
 		}
-
+		/*
 		cout<<"Total frecuency"<<endl;
 		for(int i= 0; i< 32; i++){
 			for(int j=0;j<34;j++)
 				cout<< *(totalFrecuency +i*32+j)<<"-";
 			cout<<endl;
 		}
+		*/
 
 
 		for(int k=0;k<KCLUSTERS;k++){
@@ -273,19 +257,20 @@ int main(int argc, char* argv[]) {
 					if( aux < *(totalFrecuency+ k*32*34 + 32*i +j)){
 						aux = *(totalFrecuency+ k*32*34 + 32*i +j);
 						aux2 = j;
-						cout<<"iteracion "<<i<<" entro pos:"<<j<<" con valor "<< *(totalFrecuency+ k*32*34 + 32*i +j)<<endl;
+						//cout<<"iteracion "<<i<<" entro pos:"<<j<<" con valor "<< *(totalFrecuency+ k*32*34 + 32*i +j)<<endl;
 					}
 				}
 				*(cudaModes + k*matrixColumns+ i) = aux2;
 			}
 		}
-
+		/*
 		cout<<"Modas nuevas:"<<endl;
 		for(int j= 0; j< KCLUSTERS; j++ ){
 			for(int i =0 ;i<32;i++)
 				cout<<*(cudaModes+j*matrixColumns+i)<<"-";
 			cout<<endl;
 		}
+		*/
 	}
 
 //PRINTS
