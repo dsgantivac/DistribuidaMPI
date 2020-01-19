@@ -241,7 +241,12 @@ int main(int argc, char* argv[]) {
 	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);	
 	cout<< "Obtener las modas"<<endl;
 	MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34, MPI_INT, 0, MPI_COMM_WORLD);
-	
+	int lastElement;
+	if(rank == 0){
+		for(int i= 0; i<KCLUSTERS* 32*34*size; i++){
+			lastElement = *(recvFrecuency+i);
+		}
+	}
 	
 
 //PRINTS
