@@ -144,8 +144,11 @@ int main(int argc, char* argv[]) {
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	//cout<<"kio padre world from process "<<rank<<" of " << size<<endl;
 	
+	if(rank== 0){
+		cout<<"\n............................"<<endl;
+
+	}
     
-	cout<<"\n............................"<<endl;
 
 	int iterations = ITERATIONS;
 	string line;
@@ -288,6 +291,12 @@ int main(int argc, char* argv[]) {
 		cout<<endl;
 	}
 */
+	if(rank == 0){
+		cout<<size<<" nodos"<<endl;
+		cout<<matrixRows<<" datos"<<endl;
+		cout<<KCLUSTERS<< " clusters"<<endl;
+		cout<<"temino"<<endl;
+
+	}
 	MPI_Finalize();
-	cout<<"temino"<<endl;
 }
