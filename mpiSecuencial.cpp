@@ -137,8 +137,8 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 		}
     }
     //printf("entro MI PERRO\n");
-
-	for(int k=0;k<0;k++){
+	/*
+	for(int k=0;k<clusters;k++){
 		for(int i =0;i<32;i++){
 			int aux = -1;
             int aux2 = 0;
@@ -152,6 +152,7 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 			*(modes + k*matrixColumns+ i) = aux2;
 		}
 	}
+	*/
 }
 
 
@@ -254,6 +255,28 @@ int main(int argc, char* argv[]) {
 			for(int i= 0; i<KCLUSTERS* 32*34; i++){
 				*(totalFrecuency +i ) += *(recvFrecuency+task*KCLUSTERS* 32*34+i);
 			}
+		}
+
+		for(int k=0;k<KCLUSTERS;k++){
+			for(int i =0;i<32;i++){
+				int aux = -1;
+				int aux2 = 0;
+				for(int j = 0; j< 34;j++){
+					if(aux < *(totalFrecuency+ k*32*34 + 32*i +j)){
+						aux = *(totalFrecuency+ k*32*34 + 32*i +j);
+						aux2 = k;
+						//printf("entro\n");
+					}
+				}
+				*(modes + k*matrixColumns+ i) = aux2;
+			}
+		}
+
+		cout<<"Modas nuevas:"<<endl;
+		for(int j= 0; j< KCLUSTERS; j++ ){
+			for(int i =0 ;i<32;i++)
+				cout<<*(cudaModes+j*matrixColumns+i)<<"-";
+			cout<<endl;
 		}
 	}
 
