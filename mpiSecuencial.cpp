@@ -131,7 +131,7 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 				//printf("para el dato %i y atributo % i van %i\n",i,k,repeticiones[k][*(data + i*matrixColumns+ k)]);
 			}else{
 				repeticiones[clusterIndex][k][value] += 1;
-				*(frecuecny+clusterIndex*32*34+k*32+value) = 1;
+				*(frecuecny+clusterIndex*32*34+k*32+value) += 1;
 				//printf("para el dato %i y atributo % i en la opcion %i van %i\n",i,k,*(data + i*matrixColumns+ k),repeticiones[k][*(data + i*matrixRows+ k)]);
 			}
 		}
