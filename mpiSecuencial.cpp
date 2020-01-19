@@ -272,7 +272,7 @@ int main(int argc, char* argv[]) {
 				for(int j = 0; j< 34;j++){
 					if(aux < *(totalFrecuency+ k*32*34 + 32*i +j)){
 						aux = *(totalFrecuency+ k*32*34 + 32*i +j);
-						aux2 = k;
+						aux2 = j;
 						//printf("entro\n");
 					}
 				}
