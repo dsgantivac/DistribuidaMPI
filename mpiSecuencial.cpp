@@ -75,8 +75,7 @@ void convertStrtoArr(string str,int *result,int index)
 
 //asignacion de la moda
 void splitParallel(int *data, int *tmp_mode,int matrixRows,int matrixColumns, int initIteration, int endIteration, int* modes, int clustersSize ){
-    cout << "splitParallel "<<initIteration<<" "<<endIteration<<endl;
-	int index = initIteration;
+    int index = initIteration;
 
     //printf(" esta en el hilo %i con iteracion inicial %i y final %i\n",index, initIteration,endIteration);
     int pos = 0;
@@ -105,7 +104,6 @@ void splitParallel(int *data, int *tmp_mode,int matrixRows,int matrixColumns, in
 }
 
 void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int totalThreads, int* modes, int index, int end, int clusters){
-	cout<<"entra en new mode"<<endl;
 	int repeticiones[clusters][32][34];
 	for(int k=0;k < totalThreads;k++){
 		for(int i =0;i<32;i++){
@@ -115,8 +113,7 @@ void newModes(int *data, int *frecuecny,int matrixRows,int matrixColumns, int to
 			}
 		}
 	}
-	cout<<"termina asignacion en new mode"<<endl;
-    
+	
     //printf("entro\n");
     int initIteration = index, endIteration = end;
     //printf(" esta en el hilo %i con iteracion inicial %i y final %i\n",index, initIteration,endIteration);
@@ -145,7 +142,7 @@ int main(int argc, char* argv[]) {
 	MPI_Init( &argc, &argv );
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	cout<<"kio padre world from process "<<rank<<" of " << size<<endl;
+	//cout<<"kio padre world from process "<<rank<<" of " << size<<endl;
 	
     
 	cout<<"\n............................"<<endl;
@@ -220,13 +217,13 @@ int main(int argc, char* argv[]) {
 	int *frecuency = (int *)malloc(KCLUSTERS* 32*34* sizeof(int *)); //[KCLUSTERS][32][34];
 	int *recvFrecuency = (int *)malloc(KCLUSTERS* 32*34*size*sizeof(int *));
 	int *(totalFrecuency) = (int *)malloc(KCLUSTERS* 32*34*sizeof(int *));
-	cout<<"Matrix rows: "<<matrixRows<<endl;
+	//cout<<"Matrix rows: "<<matrixRows<<endl;
 	//cout<<"Size: "<<size<<endl;
-	cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
+	//cout<<"El proceso "<<rank<<": inicia en "<<initIteration<<" y termina en "<<endIteration<<endl;
 	
 	splitParallel(arr,tmpModes,matrixRows,matrixColumns,initIteration,endIteration,cudaModes,KCLUSTERS);
 	newModes(arr,frecuency,matrixRows,matrixColumns,totalThreads,cudaModes,initIteration,endIteration,KCLUSTERS);	
-	cout<< "Obtener las modas"<<endl;
+	//cout<< "Obtener las modas"<<endl;
 	MPI_Gather(frecuency, KCLUSTERS* 32*34, MPI_INT, recvFrecuency, KCLUSTERS* 32*34, MPI_INT, 0, MPI_COMM_WORLD);
 	if(rank == 0){
 		for (int i = 0; i < KCLUSTERS* 32*34; i++)
@@ -292,6 +289,5 @@ int main(int argc, char* argv[]) {
 	}
 */
 	MPI_Finalize();
-	cout<<"\nTermino, Iteraciones = "<<iterations<<" hilos = "<<thread_count<<endl;
 	cout<<"temino"<<endl;
 }
