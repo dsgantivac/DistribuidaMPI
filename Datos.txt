@@ -80,4 +80,46 @@ real	5m27.952s
 user	5m7.388s
 sys	0m17.803s
 
+########################################################################################################3
+
+............................
+1 nodos
+6000000 datos
+125 clusters
+temino
+
+real	4m54.052s
+user	4m51.701s
+sys	0m0.631s
+
+............................
+2 nodos
+6000000 datos
+125 clusters
+temino
+
+real	3m25.496s
+user	3m23.004s
+sys	0m0.552s
+
+............................
+3 nodos
+6000000 datos
+125 clusters
+temino
+
+real	3m18.103s
+user	3m4.195s
+sys	0m11.814s
+
+............................
+4 nodos
+6000000 datos
+125 clusters
+temino
+
+real	3m1.807s
+user	2m49.247s
+sys	0m10.606s
+
 
