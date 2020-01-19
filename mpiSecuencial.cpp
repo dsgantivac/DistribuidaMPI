@@ -273,7 +273,7 @@ int main(int argc, char* argv[]) {
 					if(aux < *(totalFrecuency+ k*32*34 + 32*i +j)){
 						aux = *(totalFrecuency+ k*32*34 + 32*i +j);
 						aux2 = j;
-						//printf("entro\n");
+						cout<<"entro pos:"<<j<<" con valor"<< *(totalFrecuency+ k*32*34 + 32*i +j)<<endl;
 					}
 				}
 				*(cudaModes + k*matrixColumns+ i) = aux2;
