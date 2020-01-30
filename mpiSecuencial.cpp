@@ -1,6 +1,8 @@
 /* 
- Juan Camilo Lozano Mejia 1233898705
- David Santiago Gantiva Castro 1032494203
+ David Gantiva 
+ Jose Vitola
+ David Castillo
+ Christian Sanabria
 
 VERSION SECUENCIAL YA FUNCIONAL
 
