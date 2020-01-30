@@ -1,9 +1,8 @@
 /* 
- David Gantiva 
- Jose Vitola
- David Castillo
- Christian Sanabria
-
+ 
+ Juan Camilo Lozano Mejia C.C. 1233898705
+ David Santiago Gantiva Castro C.C. 1032494203
+ 
 VERSION SECUENCIAL YA FUNCIONAL
 
 */
